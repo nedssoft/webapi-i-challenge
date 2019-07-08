@@ -53,7 +53,7 @@ const DeleteBtn = styled(FaRegTrashAlt)`
     animation: ${moveBtn} 0.2s;
   }
 `
-export default function User({ user }) {
+export default function User({ user, deleteUser }) {
   return (
     <UserWrapper>
       <TextWrapper>
@@ -66,6 +66,7 @@ export default function User({ user }) {
       </TextWrapper>
       <ControlButtons>
         <Link to={`friends/${user.id}/edit`}><EditBtn /></Link>
+        <DeleteBtn onClick={() => deleteUser(user.id)}>Delete</DeleteBtn>
       </ControlButtons>
     </UserWrapper>
   );

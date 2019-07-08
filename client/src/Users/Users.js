@@ -28,13 +28,24 @@ class Users extends React.Component {
     users: []
   }
   componentDidMount() {
+    this.getUsers()
+  }
+  getUsers = () => {
     axios.get(BASE_URL).then(res => {
       this.setState({users : res.data.users})
     }).catch(err => {
       console.log(err)
     })
   }
-
+  deleteUser = (id) => {
+    axios.delete(`${BASE_URL}/${id}`)
+    .then(({data}) => {
+      if (data.status === 'success') {
+        alert('User deleted successfully')
+        this.getUsers()
+      }
+    })
+  }
   render() {
     return (
       <React.Fragment>
@@ -45,6 +56,7 @@ class Users extends React.Component {
               <User
                 key={user.id}
                 user={user}
+                deleteUser={this.deleteUser}
               />
             ))}
         </UsersWrapper>

@@ -72,9 +72,19 @@ class AddNewUser extends React.Component {
      axios.post(apiUrl, { name, bio}).
      then(res => {
        if(res.data) {
+         alert('User added successfully')
          this.props.history.push('/')
        }
+       else {
+        alert('There was an error trying to add user')
+       }
      })
+     .catch(err => {
+       this.setState({error: err.response.errorMessage})
+       alert(err.response.errorMessage)
+     })
+   } else {
+     alert('name and bio fields are required')
    }
   };
   render() {
