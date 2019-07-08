@@ -39,7 +39,32 @@ function createUser(req, res) {
     });
 }
 
+function findUser(req, res) {
+  const { id } = req.params
+  db.findById(id)
+    .then(data => {
+      if (data) {
+        res.status(200).json({
+          status: "success",
+          user: data
+        });
+      }
+      else {
+        res.status(404).json({
+          status: "error",
+          message: "The user with the specified ID does not exist." 
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        status: "error",
+        error: "The user information could not be retrieved." 
+      });
+    });
+}
 module.exports = {
   getUsers,
-  createUser
+  createUser,
+  findUser
 };
