@@ -97,9 +97,46 @@ function deleteUser(req, res) {
       });
     });
 }
+function updateUser(req, res) {
+  const { id } = req.params
+  const { name, bio } = req.body
+  db.findById(id)
+    .then(data => {
+      if (data) {
+        db.update(id, {name: name || data.name, bio: bio || data.bio})
+        .then(data => {
+          if (data) {
+            res.status(200).json({
+              user: data,
+              status: "success",
+              message: 'User updated successfully'
+            });
+          } else {
+            res.status(500).json({
+              status: "error",
+              errorMessage: `The user information could not be modified."` 
+            });
+          }
+        })
+      }
+      else {
+        res.status(404).json({
+          status: "error",
+          message: "The user with the specified ID does not exist." 
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        status: "error",
+        error: "The user information could not be retrieved." 
+      });
+    });
+}
 module.exports = {
   getUsers,
   createUser,
   findUser,
-  deleteUser
+  deleteUser,
+  updateUser
 };
